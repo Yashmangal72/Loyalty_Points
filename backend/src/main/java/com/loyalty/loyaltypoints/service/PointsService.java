@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +57,9 @@ public class PointsService {
 
         memberRepository.save(member);
 
+        // Points earned expire after 90 days
+        LocalDateTime expiresAt = LocalDateTime.now().plusDays(90);
+
         PointsTransaction transaction = PointsTransaction.builder()
                 .member(member)
                 .type(TransactionType.EARN)
@@ -62,6 +67,7 @@ public class PointsService {
                 .purchaseAmount(amount)
                 .description("Purchase points earned")
                 .balanceAfter(newBalance)
+                .expiresAt(expiresAt)
                 .build();
 
         transactionRepository.save(transaction);
@@ -105,6 +111,56 @@ public class PointsService {
         transactionRepository.save(transaction);
 
         return member;
+    }
+
+    /**
+     * Expires unused points whose 90-day expiry time has passed.
+     */
+    @Transactional
+    public int expirePoints(LocalDateTime clockTime) {
+
+        List<PointsTransaction> expiredTransactions =
+                transactionRepository.findByTypeAndExpiresAtBefore(
+                        TransactionType.EARN,
+                        clockTime
+                );
+
+        int expiredCount = 0;
+
+        for (PointsTransaction transaction : expiredTransactions) {
+
+            Member member = transaction.getMember();
+
+            BigDecimal pointsToExpire =
+                    transaction.getPoints().min(member.getCurrentPoints());
+
+            if (pointsToExpire.compareTo(BigDecimal.ZERO) > 0) {
+
+                BigDecimal newBalance =
+                        member.getCurrentPoints().subtract(pointsToExpire);
+
+                member.setCurrentPoints(newBalance);
+                memberRepository.save(member);
+
+                PointsTransaction expiration = PointsTransaction.builder()
+                        .member(member)
+                        .type(TransactionType.REDEEM)
+                        .points(pointsToExpire.negate())
+                        .description("Points expired after 90 days")
+                        .balanceAfter(newBalance)
+                        .build();
+
+                transactionRepository.save(expiration);
+
+                expiredCount++;
+            }
+
+            // Prevent this transaction from being processed again
+            transaction.setExpiresAt(null);
+            transactionRepository.save(transaction);
+        }
+
+        return expiredCount;
     }
 
     private Tier findTier(BigDecimal lifetimePoints) {

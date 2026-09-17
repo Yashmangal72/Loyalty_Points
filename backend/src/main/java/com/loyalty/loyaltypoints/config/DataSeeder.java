@@ -25,24 +25,41 @@ public class DataSeeder {
             // Tiers
             if (tierRepository.count() == 0) {
 
-                tierRepository.save(Tier.builder()
-                        .name("BRONZE")
-                        .minimumLifetimePoints(BigDecimal.ZERO)
-                        .pointsMultiplier(new BigDecimal("1.0"))
-                        .build());
+    tierRepository.save(
+        Tier.builder()
+            .name("BRONZE")
+            .minimumLifetimePoints(BigDecimal.ZERO)
+            .pointsMultiplier(new BigDecimal("1.0"))
+            .build()
+    );
 
-                tierRepository.save(Tier.builder()
-                        .name("SILVER")
-                        .minimumLifetimePoints(new BigDecimal("500"))
-                        .pointsMultiplier(new BigDecimal("1.5"))
-                        .build());
+    tierRepository.save(
+        Tier.builder()
+            .name("SILVER")
+            .minimumLifetimePoints(new BigDecimal("500"))
+            .pointsMultiplier(new BigDecimal("1.5"))
+            .build()
+    );
 
-                tierRepository.save(Tier.builder()
-                        .name("GOLD")
-                        .minimumLifetimePoints(new BigDecimal("1500"))
-                        .pointsMultiplier(new BigDecimal("2.0"))
-                        .build());
-            }
+    tierRepository.save(
+        Tier.builder()
+            .name("GOLD")
+            .minimumLifetimePoints(new BigDecimal("1500"))
+            .pointsMultiplier(new BigDecimal("2.0"))
+            .build()
+    );
+}
+
+if (tierRepository.findByName("PLATINUM").isEmpty()) {
+
+    tierRepository.save(
+        Tier.builder()
+            .name("PLATINUM")
+            .minimumLifetimePoints(new BigDecimal("5000"))
+            .pointsMultiplier(new BigDecimal("0.3"))
+            .build()
+    );
+}
 
             // Rewards
             if (rewardRepository.count() == 0) {
