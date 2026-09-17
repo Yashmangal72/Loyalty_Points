@@ -1,3 +1,18 @@
+<img width="1917" height="1076" alt="image" src="https://github.com/user-attachments/assets/26f807be-4fa0-4a21-8819-4c68665145cb" />
+
+<img width="1917" height="1037" alt="image" src="https://github.com/user-attachments/assets/3d588166-cae4-45df-a4a5-1916850d13ff" />
+
+<img width="1917" height="1028" alt="image" src="https://github.com/user-attachments/assets/8c9403e9-65bb-4070-9d6a-6bed61c3a089" />
+
+<img width="1917" height="1030" alt="image" src="https://github.com/user-attachments/assets/1208fbd7-e1aa-4895-881d-16d2d473de70" />
+
+<img width="1917" height="981" alt="image" src="https://github.com/user-attachments/assets/ac8ae0cd-c4b8-4dc3-9f04-d358b1399005" />
+
+<img width="1917" height="983" alt="image" src="https://github.com/user-attachments/assets/93b15501-cd09-4241-b7ae-88f1364566a4" />
+
+
+
+
 # BeanPoints — Café Loyalty Points System
 
 A full-stack café loyalty management platform built with **React, Vite, Spring Boot, Spring Security, JWT and PostgreSQL**.
