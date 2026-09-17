@@ -1,6 +1,7 @@
 package com.loyalty.loyaltypoints.controller;
 
 import com.loyalty.loyaltypoints.dto.CreateMemberRequest;
+import com.loyalty.loyaltypoints.dto.MemberResponse;
 import com.loyalty.loyaltypoints.entity.Member;
 import com.loyalty.loyaltypoints.service.MemberService;
 import jakarta.validation.Valid;
@@ -21,34 +22,35 @@ public class MemberController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Member createMember(
-            @Valid @RequestBody CreateMemberRequest request
-    ) {
-        return memberService.createMember(
-                request.name(),
-                request.phone(),
-                request.email()
+    public MemberResponse createMember(
+            @Valid @RequestBody CreateMemberRequest request) {
+
+        return MemberResponse.from(
+                memberService.createMember(
+                        request.name(),
+                        request.phone(),
+                        request.email()
+                )
         );
     }
 
     @GetMapping("/{id}")
-    public Member getMember(@PathVariable Long id) {
-        return memberService.getMember(id);
+    public MemberResponse getMember(@PathVariable Long id) {
+        return MemberResponse.from(memberService.getMember(id));
     }
 
     @GetMapping("/phone/{phone}")
-    public Member getByPhone(@PathVariable String phone) {
-        return memberService.findByPhone(phone);
+    public MemberResponse getByPhone(@PathVariable String phone) {
+        return MemberResponse.from(memberService.findByPhone(phone));
     }
 
     @GetMapping
-    public Page<Member> searchMembers(
+    public Page<MemberResponse> searchMembers(
             @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "name") String sortBy,
-            @RequestParam(defaultValue = "asc") String direction
-    ) {
+            @RequestParam(defaultValue = "asc") String direction) {
 
         Sort.Direction sortDirection =
                 direction.equalsIgnoreCase("desc")
@@ -61,6 +63,7 @@ public class MemberController {
                 Sort.by(sortDirection, sortBy)
         );
 
-        return memberService.searchMembers(search, pageable);
+        return memberService.searchMembers(search, pageable)
+                .map(MemberResponse::from);
     }
 }
