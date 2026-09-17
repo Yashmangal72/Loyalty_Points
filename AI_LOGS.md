@@ -1,4 +1,5 @@
 Today 2:39 PM
+ChatGPT https://chatgpt.com/share/6aabd029-52fc-83ee-8a60-7d6c34f2f878
 
 The storyline
 A café chain’s rewards programme. Members earn points on every purchase and redeem them for free items. Regulars reach higher tiers — Silver, then Gold — that earn faster. The counter needs to record a purchase, add the right points, let a member redeem, and always show the correct live balance. Staff look a member up by phone number, and the member list is long.
