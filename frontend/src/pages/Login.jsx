@@ -42,50 +42,52 @@ function Login() {
     return (
         <div className="auth-page">
 
-            <form className="auth-card" onSubmit={handleSubmit}>
+            <form className="auth-card auth-form" onSubmit={handleSubmit}>
 
-                <h1>Welcome back</h1>
+    <h1>Welcome back</h1>
 
-                <p>Sign in to manage your café loyalty programme.</p>
+    <p>Sign in to manage your café loyalty programme.</p>
 
-                {error && (
-                    <div className="error-message">
-                        {error}
-                    </div>
-                )}
+    {error && (
+        <div className="error-message">
+            {error}
+        </div>
+    )}
 
-                <label>Email</label>
+    <label>
+        Email
+        <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="staff@example.com"
+            required
+        />
+    </label>
 
-                <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="staff@example.com"
-                    required
-                />
+    <label>
+        Password
+        <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="••••••••"
+            required
+        />
+    </label>
 
-                <label>Password</label>
+    <button type="submit" className="primary-btn">
+        Login
+    </button>
 
-                <input
-                    type="password"
-                    name="password"
-                    value={form.password}
-                    onChange={handleChange}
-                    placeholder="••••••••"
-                    required
-                />
+    <p>
+        Don't have an account?{" "}
+        <Link to="/register">Register</Link>
+    </p>
 
-                <button type="submit" className="primary-btn">
-                    Login
-                </button>
-
-                <p>
-                    Don't have an account?{" "}
-                    <Link to="/register">Register</Link>
-                </p>
-
-            </form>
+</form>
 
         </div>
     );
